@@ -20,27 +20,27 @@ authorization: use it only after Michael explicitly grants the current
 instance/session access. Do not delegate live Unraid access to subagents unless
 Michael explicitly authorizes that delegation.
 
-Codex Desktop may not inherit the Fleet wrapper PATH. In every fresh PowerShell
-process, select Git-for-Windows OpenSSH and KeeAgent explicitly:
+Use Windows OpenSSH with KeeAgent through KeeAgent's native Windows OpenSSH
+endpoint. Do not set an agent socket or alter `PATH`:
 
 ```powershell
-$env:PATH = 'C:\Program Files\Git\usr\bin;' + $env:PATH
-$env:SSH_AUTH_SOCK = '/c/Save/KeeAgent.sock'
 Get-Command ssh
 ssh-add -l
-ssh -o BatchMode=yes -o ForwardAgent=no root@10.0.0.44 '<command>'
+ssh -p 22 -o BatchMode=yes -o ForwardAgent=no root@10.0.0.44 '<command>'
 ```
 
 - `Get-Command ssh` must resolve to
-  `C:\Program Files\Git\usr\bin\ssh.exe`.
+  `C:\Windows\System32\OpenSSH\ssh.exe`.
 - Expected Unraid key fingerprint:
   `SHA256:R28Naod49ShXisLLLd3w49g/EQnckqMP6I+jASH7Qp4`.
 - If absent from `ssh-add -l`, ask Michael to unlock KeePass and press `Ctrl+M`.
   Do not recreate, export, or search for a private key file.
 - KeeAgent access currently expires 1,800 seconds after loading. Closing
   KeePass removes access immediately.
-- Do not use Windows OpenSSH, Plink, or an extra `bash -lc` wrapper. Never point
-  Windows OpenSSH at `C:\Save\KeeAgent.sock`; it corrupts the Cygwin socket.
+- Configure Git independently of shell `PATH` with
+  `git config --global core.sshCommand "C:/Windows/System32/OpenSSH/ssh.exe"`.
+- Do not use Git-for-Windows OpenSSH, Plink, Cygwin/MSYS agent sockets,
+  `SSH_AUTH_SOCK`, `PATH` changes, or SSH wrappers.
 - Do not bypass host-key checking. Star Destroyer ED25519 host fingerprint:
   `SHA256:smPlsHHU7+M3k2GKfXfHd1ktjCJjpQ8gC2kTmMIdnoE`.
 
