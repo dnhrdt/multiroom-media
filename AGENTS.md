@@ -3,6 +3,20 @@
 Conversation with Michael: German, informal "du".
 Code, comments, commits, and persistent docs: English unless Michael asks otherwise.
 
+## Project Memory
+
+Follow the MB3 contract in Fleet global instructions. Start with
+`memory-bank/projectBrief.md` and load the canonical roles relevant to the task:
+`techContext.md`, `systemPatterns.md`, `tasks.yaml`, `decisions.yaml`, and
+`lessons-learned.md`. The explicit migration and retirement of `activeContext.md`
+are recorded in `memory-bank/decisions.yaml` (UMA-D012).
+
+The Memory Bank is private and intentionally Git-ignored in this public
+repository. Never force-add it. Its pre-adoption recovery copy and adoption
+record remain local under `memory-bank/archive/pre-adoption-2026-09-09/` and
+`memory-bank/ADOPTION-2026-09-09.md`. Named WIP evidence and actionable work are
+linked from the canonical roles; loading Memory does not resume production work.
+
 ## System Criticality
 
 This repo operates a production Unraid multi-room audio system. Treat Unraid
