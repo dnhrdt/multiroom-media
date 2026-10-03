@@ -28,8 +28,11 @@ ways.
 
 ## Unraid SSH Access
 
-Star Destroyer's private SSH key exists only as an attachment in Michael's
-KeePass/KeeAgent. No private key file exists on disk. Access is not standing
+Star Destroyer accepts the ED25519 key `pellaeon@fleet` (Michael's Exekutor
+key), which exists only in Michael's KeePass/KeeAgent. No private key file
+exists on disk. The older RSA key `michael@unraid-star-destroyer` is still
+listed in `authorized_keys`, but its private half is missing from KeePass.
+Access is not standing
 authorization: use it only after Michael explicitly grants the current
 instance/session access. Do not delegate live Unraid access to subagents unless
 Michael explicitly authorizes that delegation.
@@ -45,12 +48,11 @@ ssh -p 22 -o BatchMode=yes -o ForwardAgent=no root@10.0.0.44 '<command>'
 
 - `Get-Command ssh` must resolve to
   `C:\Windows\System32\OpenSSH\ssh.exe`.
-- Expected Unraid key fingerprint:
-  `SHA256:R28Naod49ShXisLLLd3w49g/EQnckqMP6I+jASH7Qp4`.
+- Expected key fingerprint in `ssh-add -l`:
+  `SHA256:VQR6R4ahIi8HJDLtH84zoQi+iJZrQTpFL/CZmS5mwms` (`pellaeon@fleet`).
 - If absent from `ssh-add -l`, ask Michael to unlock KeePass and press `Ctrl+M`.
   Do not recreate, export, or search for a private key file.
-- KeeAgent access currently expires 1,800 seconds after loading. Closing
-  KeePass removes access immediately.
+- Closing KeePass removes access immediately.
 - Configure Git independently of shell `PATH` with
   `git config --global core.sshCommand "C:/Windows/System32/OpenSSH/ssh.exe"`.
 - Do not use Git-for-Windows OpenSSH, Plink, Cygwin/MSYS agent sockets,
