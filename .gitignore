@@ -32,6 +32,9 @@ tools/obsidian-sync/
 # Archive (old session handovers, debug notes)
 archive/
 
+# Playlists (user-specific genre/preference selections)
+kodi/playlists/
+
 # Addon user data (may contain credentials, cache)
 kodi/addon_data/
 
