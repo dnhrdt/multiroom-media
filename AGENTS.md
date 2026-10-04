@@ -32,10 +32,11 @@ Star Destroyer accepts the ED25519 key `pellaeon@fleet` (Michael's Exekutor
 key), which exists only in Michael's KeePass/KeeAgent. No private key file
 exists on disk. The older RSA key `michael@unraid-star-destroyer` is still
 listed in `authorized_keys`, but its private half is missing from KeePass.
-Access is not standing
-authorization: use it only after Michael explicitly grants the current
-instance/session access. Do not delegate live Unraid access to subagents unless
-Michael explicitly authorizes that delegation.
+Read-only access is standing: an instance working in this repository may use it
+for diagnostics and for read-only steps of accepted work without a separate
+grant. Writes follow the Unraid Change Policy below. Do not delegate live
+Unraid access to subagents unless Michael explicitly authorizes that
+delegation.
 
 Use Windows OpenSSH with KeeAgent through KeeAgent's native Windows OpenSSH
 endpoint. Do not set an agent socket or alter `PATH`:
@@ -62,7 +63,7 @@ ssh -p 22 -o BatchMode=yes -o ForwardAgent=no root@10.0.0.44 '<command>'
 
 ## Unraid Change Policy
 
-Read-only diagnostics are allowed.
+Read-only diagnostics are allowed at any time.
 
 Before making any write/change on Unraid, including but not limited to package
 install/removal, editing `/boot`, restarting services, restarting containers,
@@ -73,6 +74,12 @@ loading/unloading kernel modules, USB reset/rebind, or changing mixer state:
 3. Define the exact rollback command or restore procedure before changing it.
 4. State the planned change and rollback path to Michael.
 5. Proceed only when the change is necessary and the rollback is credible.
+
+Within a running assignment that Michael has agreed, a change that follows
+from that assignment needs no separate permission; the permission comes from
+the assignment. Steps 1 to 3 and 5 still apply, and step 4 becomes a notice in
+the same turn instead of a question. A change outside an agreed assignment, or
+one whose consequences reach beyond what was agreed, waits for Michael's go.
 
 Do not "just install" packages, reinstall libraries, restart PulseAudio, restart
 Kodi containers, reload `snd-usb-audio`, or rewrite files on `/boot` as a quick
