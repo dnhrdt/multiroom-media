@@ -65,10 +65,10 @@ Each media player gets a dedicated stereo pair on the USB interface. PulseAudio 
 | Component | Role | Cost |
 |-----------|------|------|
 | **Unraid Server** | Host OS, Docker runtime | ~$150 (mini PC) + license |
-| **Behringer UMC1820** | 12-channel USB audio interface (5 stereo zones) | ~$250 |
+| **Behringer UMC1820** | 18-in/20-out USB audio interface (5 stereo zones) | ~$250 |
 | **PulseAudio 17.0** | Software audio routing — multichannel ALSA sink + remap sinks | Free |
 | **Kodi Headless** | Media player containers (`fhriley/kodi-headless-novnc`) | Free |
-| **Zone Amplifier** | Drives speakers per zone (e.g. Audac R2 matrix amp) | Varies |
+| **Zone Amplifier** | Drives speakers per zone (e.g. [Audac R2](https://github.com/dnhrdt/audac-r2-integration) digital audio matrix) | Varies |
 
 **Total for 5-zone system: ~$400 + amplifier + speakers** (vs. $2,000-10,000+ for commercial solutions)
 
