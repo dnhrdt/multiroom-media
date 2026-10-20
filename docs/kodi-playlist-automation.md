@@ -264,16 +264,16 @@ curl -s -X POST http://10.2.0.160:9090/jsonrpc \
 ### Manual Playlist Load Test
 ```bash
 # Check JSON-RPC availability
-ssh root@10.0.0.44 'curl -s http://10.2.0.160:9090/jsonrpc \
+ssh -p 259 root@10.0.0.44 'curl -s http://10.2.0.160:9090/jsonrpc \
   -d "{\"jsonrpc\":\"2.0\",\"method\":\"JSONRPC.Ping\",\"id\":1}"'
 
 # Load test playlist
-ssh root@10.0.0.44 'curl -s -X POST http://10.2.0.160:9090/jsonrpc \
+ssh -p 259 root@10.0.0.44 'curl -s -X POST http://10.2.0.160:9090/jsonrpc \
   -H "Content-Type: application/json" \
   -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"Player.Open\",\"params\":{\"item\":{\"file\":\"/data/userdata/playlists/music/test.m3u\"}}}"'
 
 # Verify playback started
-ssh root@10.0.0.44 'curl -s http://10.2.0.160:9090/jsonrpc \
+ssh -p 259 root@10.0.0.44 'curl -s http://10.2.0.160:9090/jsonrpc \
   -d "{\"jsonrpc\":\"2.0\",\"method\":\"Player.GetActivePlayers\",\"id\":1}"'
 ```
 

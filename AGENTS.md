@@ -33,9 +33,16 @@ decided on 2026-10-20 (fleet-security D-032, recorded here as UMA-D024) that
 this one operator key serves every Fleet host; the RSA key
 `michael@unraid-star-destroyer` (`id_rsa_unraid`) is retired. The Fleet key
 exists only in Michael's KeePass and is served by KeeAgent; on HAN,
-`~/.ssh/id_fleet.pub` is its public half. sshd reads root's keys from
-`/boot/config/ssh/root/authorized_keys` (via the `/root/.ssh` symlink); the
-older `/boot/config/ssh/authorized_keys` is not used by sshd.
+`~/.ssh/id_fleet.pub` is its public half. Since 2026-10-20 sshd listens on
+port 259 (Fleet standard) and accepts public keys only; password and
+keyboard-interactive login are off. sshd reads root's keys from
+`/boot/config/ssh/root/authorized_keys` (via the `/root/.ssh` symlink, which
+contains only the Fleet key). The key-only settings persist in
+`/boot/config/ssh/sshd_config`, which `rc.sshd` copies to `/etc/ssh/` at
+every sshd start; after an Unraid upgrade compare it with the shipped default
+before rebooting. HAN's `~/.ssh/config` alias `star-destroyer` carries the
+port. If key login ever fails, the Unraid WebGUI terminal (root password)
+remains as fallback.
 Read-only access is standing: an instance working in this repository may use it
 for diagnostics and for read-only steps of accepted work without a separate
 grant. Writes follow the Unraid Change Policy below. Do not delegate live
@@ -48,7 +55,7 @@ endpoint. Do not set an agent socket or alter `PATH`:
 ```powershell
 Get-Command ssh
 ssh-add -l
-ssh -p 22 -o BatchMode=yes -o ForwardAgent=no -o IdentitiesOnly=yes -o IdentityFile=~/.ssh/id_fleet.pub root@10.0.0.44 '<command>'
+ssh -p 259 -o BatchMode=yes -o ForwardAgent=no -o IdentitiesOnly=yes -o IdentityFile=~/.ssh/id_fleet.pub root@10.0.0.44 '<command>'
 ```
 
 - `Get-Command ssh` must resolve to
