@@ -60,6 +60,9 @@ ssh -p 22 -o BatchMode=yes -o ForwardAgent=no -o IdentitiesOnly=yes -o IdentityF
   (`michael@unraid-star-destroyer`).
 - If absent from `ssh-add -l`, ask Michael to load `id_rsa_unraid` in
   KeePass/KeeAgent. Do not recreate, export, or search for a private key file.
+  Without the loaded key ssh reports `Server accepts key` followed by
+  `Load key ...id_rsa_unraid.pub: invalid format`; that means "key not
+  loaded", not a Star Destroyer fault.
 - Closing KeePass removes access immediately.
 - Configure Git independently of shell `PATH` with
   `git config --global core.sshCommand "C:/Windows/System32/OpenSSH/ssh.exe"`.
