@@ -28,13 +28,14 @@ ways.
 
 ## Unraid SSH Access
 
-Use only the RSA key `michael@unraid-star-destroyer` (KeePass entry
-`id_rsa_unraid`) for Star Destroyer. Michael's rule (2026-10-20, UMA-D023):
-the Fleet key `pellaeon@fleet` is reserved for the production servers;
-Executor and Star Destroyer use `id_rsa_unraid`. Both keys exist only in
-Michael's KeePass/KeeAgent; KeeAgent loads `pellaeon@fleet` at unlock and
-`id_rsa_unraid` on demand. `pellaeon@fleet` is still listed in Star
-Destroyer's `authorized_keys`; do not rely on it.
+Use the Fleet key `pellaeon@fleet` (Ed25519) for Star Destroyer. Michael
+decided on 2026-10-20 (fleet-security D-032, recorded here as UMA-D024) that
+this one operator key serves every Fleet host; the RSA key
+`michael@unraid-star-destroyer` (`id_rsa_unraid`) is retired. The Fleet key
+exists only in Michael's KeePass and is served by KeeAgent; on HAN,
+`~/.ssh/id_fleet.pub` is its public half. sshd reads root's keys from
+`/boot/config/ssh/root/authorized_keys` (via the `/root/.ssh` symlink); the
+older `/boot/config/ssh/authorized_keys` is not used by sshd.
 Read-only access is standing: an instance working in this repository may use it
 for diagnostics and for read-only steps of accepted work without a separate
 grant. Writes follow the Unraid Change Policy below. Do not delegate live
@@ -47,22 +48,21 @@ endpoint. Do not set an agent socket or alter `PATH`:
 ```powershell
 Get-Command ssh
 ssh-add -l
-ssh -p 22 -o BatchMode=yes -o ForwardAgent=no -o IdentitiesOnly=yes -o IdentityFile=~/.ssh/id_rsa_unraid.pub root@10.0.0.44 '<command>'
+ssh -p 22 -o BatchMode=yes -o ForwardAgent=no -o IdentitiesOnly=yes -o IdentityFile=~/.ssh/id_fleet.pub root@10.0.0.44 '<command>'
 ```
 
 - `Get-Command ssh` must resolve to
   `C:\Windows\System32\OpenSSH\ssh.exe`.
-- `IdentityFile` points to the public key `~/.ssh/id_rsa_unraid.pub`; with
+- `IdentityFile` points to the public key `~/.ssh/id_fleet.pub`; with
   `IdentitiesOnly=yes` ssh offers only the matching key from KeeAgent and no
   other agent key or key file.
 - Expected key fingerprint in `ssh-add -l`:
-  `SHA256:R28Naod49ShXisLLLd3w49g/EQnckqMP6I+jASH7Qp4`
-  (`michael@unraid-star-destroyer`).
-- If absent from `ssh-add -l`, ask Michael to load `id_rsa_unraid` in
-  KeePass/KeeAgent. Do not recreate, export, or search for a private key file.
+  `SHA256:VQR6R4ahIi8HJDLtH84zoQi+iJZrQTpFL/CZmS5mwms` (`pellaeon@fleet`).
+- If absent from `ssh-add -l`, ask Michael to unlock KeePass so KeeAgent
+  loads it. Do not recreate, export, or search for a private key file.
   Without the loaded key ssh reports `Server accepts key` followed by
-  `Load key ...id_rsa_unraid.pub: invalid format`; that means "key not
-  loaded", not a Star Destroyer fault.
+  `Load key ...id_fleet.pub: invalid format`; that means "key not loaded",
+  not a Star Destroyer fault.
 - Closing KeePass removes access immediately.
 - Configure Git independently of shell `PATH` with
   `git config --global core.sshCommand "C:/Windows/System32/OpenSSH/ssh.exe"`.
