@@ -28,10 +28,12 @@ ways.
 
 ## Unraid SSH Access
 
-Star Destroyer accepts the ED25519 key `pellaeon@fleet` (Michael's Exekutor
-key), which exists only in Michael's KeePass/KeeAgent. No private key file
-exists on disk. The older RSA key `michael@unraid-star-destroyer` is still
-listed in `authorized_keys`, but its private half is missing from KeePass.
+Star Destroyer accepts two keys, both only in Michael's KeePass/KeeAgent: the
+ED25519 key `pellaeon@fleet`, which this repository uses, and the older RSA
+key `michael@unraid-star-destroyer` (KeePass entry `id_rsa_unraid`), which is
+also the only key Executor accepts. KeeAgent loads `pellaeon@fleet` at unlock;
+the RSA key is loaded on demand. Do not call `pellaeon@fleet` the "Exekutor
+key": Executor rejects it.
 Read-only access is standing: an instance working in this repository may use it
 for diagnostics and for read-only steps of accepted work without a separate
 grant. Writes follow the Unraid Change Policy below. Do not delegate live
