@@ -58,8 +58,10 @@ ssh -p 22 -o BatchMode=yes -o ForwardAgent=no -o IdentitiesOnly=yes -o IdentityF
   other agent key or key file.
 - Expected key fingerprint in `ssh-add -l`:
   `SHA256:VQR6R4ahIi8HJDLtH84zoQi+iJZrQTpFL/CZmS5mwms` (`pellaeon@fleet`).
-- If absent from `ssh-add -l`, ask Michael to unlock KeePass so KeeAgent
-  loads it. Do not recreate, export, or search for a private key file.
+- KeeAgent loads the Fleet key only on demand and with a time limit
+  (fleet-security D-033). If absent from `ssh-add -l`, ask Michael to press
+  `Ctrl+M` on the Fleet entry in KeePass. Do not recreate, export, or search
+  for a private key file.
   Without the loaded key ssh reports `Server accepts key` followed by
   `Load key ...id_fleet.pub: invalid format`; that means "key not loaded",
   not a Star Destroyer fault.
