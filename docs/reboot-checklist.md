@@ -107,6 +107,13 @@ Complete this before scheduling an upgrade.
 8. Do not combine the audio upgrade with internal-boot migration, TPM licensing
    migration, ZFS feature upgrades, or unrelated hardware changes. Those can
    invalidate the simple OS rollback path.
+9. SSH: since 2026-10-20 a persisted `/boot/config/ssh/sshd_config`
+   (public keys only) replaces the shipped `/etc/ssh/sshd_config` at every
+   sshd start. Compare it with the target release's default `sshd_config`
+   (extract it from the new `bzroot` or read the release notes for OpenSSH
+   changes). If options changed, prepare an updated copy before the reboot;
+   an incompatible copy stops sshd. The Unraid WebGUI terminal stays the
+   fallback.
 
 Preflight acceptance requires all of the following:
 
@@ -206,10 +213,13 @@ cat /etc/unraid-version
 uname -r
 ls -l /boot/extra/*sound* /boot/extra/*alsa*
 ls -l /var/log/packages/sound-* /var/log/packages/alsa-lib*
+sshd -T | grep -E '^(port|passwordauthentication|kbdinteractiveauthentication) '
 ```
 
 Acceptance:
 
+- SSH answers on port 259 with the Fleet key and reports
+  `passwordauthentication no` and `kbdinteractiveauthentication no`.
 - Expected Unraid release is running.
 - `uname -r` exactly matches the active sound-package filename.
 
