@@ -52,3 +52,6 @@ docs/KodiXBMC Music Remote - Manuals and Documentation.md
 
 # CLAUDE.md (fleet instance config, not project-relevant)
 CLAUDE.md
+
+# Vulnerability inventory for Fleet Security (confidential, Fleet-internal)
+vuln-inventory/
